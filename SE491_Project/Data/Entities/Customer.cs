@@ -8,6 +8,7 @@
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+        public string twiter { get; set; }
         public DateTime RegistrationDate { get; set; }
         public List<Reservation> Reservations { get; set; }
 
