@@ -17,4 +17,10 @@
     <PackageReference Include="Extensions.MudBlazor.StaticInput" Version="3.*" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Components\Pages\ReservationComponents\" />
+    <Folder Include="Components\Pages\RoomComponents\" />
+  </ItemGroup>
+
 </Project>

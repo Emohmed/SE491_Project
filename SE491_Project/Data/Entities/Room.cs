@@ -2,15 +2,25 @@
 {
     public class Room
     {
-        public int RoomId { get; set; }
-        public string RoomNumber { get; set; }
-        public string RoomType { get; set; } 
-        public decimal PricePerNight { get; set; }
-        public int Capacity { get; set; }
-        public string Description { get; set; }
-        public bool IsAvailable { get; set; }
+        public Guid RoomId { get; set; }
+
+        public string Number { get; set; } = string.Empty;  
+
+        public string Type { get; set; }        
+
+        public decimal PricePerNight { get; set; }          
+
+        public RoomStatus Status { get; set; } = RoomStatus.Available;
         
 
-       
+        public List<Reservation> Reservations { get; set; } = [];  // علاقة الحجز
     }
+
+    public enum RoomStatus
+    {
+        Available,       
+        Booked,           
+        UnderMaintenance  
+    }
+
 }
