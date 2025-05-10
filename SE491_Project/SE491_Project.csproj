@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Components\Pages\ReservationComponents\" />
-    <Folder Include="Components\Pages\RoomComponents\" />
   </ItemGroup>
 
 </Project>

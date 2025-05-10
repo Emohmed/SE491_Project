@@ -1,0 +1,41 @@
+﻿@page "/RoomList"
+@rendermode InteractiveServer
+@using SE491_Project.Data.Entities
+
+@inject RoomDesignServices _RoomDesignServices
+<MudTable Items="Rooms" Hover="true" Loading="@_Loading" LoadingProgressColor="Color.Info">
+	<HeaderContent>
+		<MudTh> ID</MudTh>
+		<MudTh>رقم الغرفة</MudTh>
+		<MudTh>نوع الغرفة</MudTh>
+		<MudTh>سعر الغرفة</MudTh>
+		<MudTh> حالة الغرفة</MudTh>
+	</HeaderContent>
+	<RowTemplate>
+		<MudTd DataLabel="Id">@context.RoomId </MudTd>
+		<MudTd DataLabel="Number">@context.Number</MudTd>
+		<MudTd DataLabel="Type">@context.Type</MudTd>
+		<MudTd DataLabel="PricePerNight">@context.PricePerNight دينار</MudTd>
+		<MudTd DataLabel="Status">@context.Status</MudTd>
+	</RowTemplate>
+
+
+</MudTable>
+
+@code {
+	public List<Room> Rooms { set; get; } = new List<Room>();
+	
+	private bool _Loading = false;
+
+	protected override async Task OnInitializedAsync()
+	{
+		_Loading = true;
+		
+		await Task.Delay(2000);
+		Rooms = _RoomDesignServices.GetRooms();
+		_Loading = false;
+
+
+	}
+
+}

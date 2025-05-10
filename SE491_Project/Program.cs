@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 using SE491_Project.Components;
 using SE491_Project.Components.Account;
+using SE491_Project.Components.Pages.RoomComponents;
 using SE491_Project.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,9 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+builder.Services.AddScoped<RoomDesignServices>();//
+
 
 builder.Services.AddAuthentication(options =>
     {
