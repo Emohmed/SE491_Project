@@ -1,0 +1,36 @@
+﻿@page "/EditRoom"
+@page "/EditRoom/{RoomId:guid}"
+@rendermode InteractiveServer
+@inject RoomDesignServices _RoomDesignServices
+@using SE491_Project.Data.Entities
+<h3>Edit Room</h3>
+
+<MudTextField @bind-Value=Room.Number></MudTextField>
+<MudTextField @bind-Value=Room.Type></MudTextField>
+<MudTextField @bind-Value=Room.PricePerNight></MudTextField>
+<MudTextField @bind-Value=Room.Status></MudTextField>
+<MudButton Color="Color.Primary" Variant="Variant.Filled">Save</MudButton>
+
+@code {
+	[Parameter] public Guid RoomId { set; get; }
+
+	private Room Room { set; get; } = new Room();
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		await Task.Delay(1000);
+		
+		
+
+
+
+	}
+	private async Task save()
+	{
+		await Task.Delay(1000);
+		Console.WriteLine($"Saved Room:{Room.Number}");
+	}
+
+
+}
