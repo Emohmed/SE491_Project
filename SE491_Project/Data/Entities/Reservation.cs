@@ -3,7 +3,7 @@
     public class Reservation
     {
         public Guid ReservationId { get; set; }
-
+       public int NumberOfGuest { get; set; }
         public Guid RoomId { get; set; }
         public Room Room { get; set; } = new();
 
@@ -16,7 +16,7 @@
 
         public int NumberOfNights => (int)(CheckOutDate.Date - CheckInDate.Date).TotalDays;
 
-        public decimal TotalPrice => NumberOfNights * (Room?.PricePerNight ?? 0);
+        public decimal TotalPrice => (decimal)(NumberOfNights * (Room?.PricePerNight ?? 0));
     }
 }
 

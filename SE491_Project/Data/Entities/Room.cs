@@ -8,7 +8,8 @@
 
         public string Type { get; set; }        
 
-        public decimal PricePerNight { get; set; }          
+        public double PricePerNight { get; set; }  
+       
 
         public RoomStatus Status { get; set; } = RoomStatus.Available;
         
