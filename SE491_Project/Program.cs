@@ -21,7 +21,8 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
-builder.Services.AddScoped<RoomDesignServices>();//
+builder.Services.AddScoped<IRoomServices, RoomServices>();//
+
 
 
 builder.Services.AddAuthentication(options =>
@@ -32,8 +33,15 @@ builder.Services.AddAuthentication(options =>
     .AddIdentityCookies();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString,
+    sqlServerOptionsAction: sqlOptions=>
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount:5,
+            maxRetryDelay:TimeSpan.FromSeconds(30),
+            errorNumbersToAdd:null);
+    }));//
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)

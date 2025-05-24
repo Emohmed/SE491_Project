@@ -1,5 +1,10 @@
 ﻿@page "/counter"
+@using SE491_Project.Components.Pages.RoomComponents
+@using SE491_Project.Data.Entities
 @rendermode InteractiveServer
+@inject IRoomServices RoomServices
+
+
 
 <MudPopoverProvider />
 <MudDialogProvider />
@@ -15,6 +20,7 @@
 
 @code {
     private int currentCount = 0;
+    
 
     private void IncrementCount()
     {

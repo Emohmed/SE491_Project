@@ -1,0 +1,43 @@
+﻿@page "/Addroom"
+@rendermode InteractiveServer
+@using SE491_Project.Data.Entities
+@inject NavigationManager _NavigationManager
+@inject IRoomServices _RoomDesignServices
+
+<h3>إضافة غرفة جديدة</h3>
+
+<EditForm Model="Room" OnValidSubmit="saveRoom">
+    <MudGrid>
+        <MudItem xs="12" sm="6" md="4">
+            <MudTextField @bind-Value="Room.Number" Label="رقم الغرفة" Required="true" />
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudTextField @bind-Value="Room.Type" Label="نوع الغرفة" Required="true" />
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudTextField @bind-Value="Room.PricePerNight" Label="سعر الليلة" Required="true" />
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudSelect T="RoomStatus" @bind-Value="Room.Status" Label="حالة الغرفة" Required="true">
+                @foreach (var status in Enum.GetValues<RoomStatus>())
+                {
+                    <MudSelectItem Value="status">@status</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12">
+            <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">حفظ</MudButton>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code {
+    private Room Room { get; set; } = new Room();
+
+    private async Task saveRoom()
+    {
+        await _RoomDesignServices.CreateRoomsAsync(Room);
+        _NavigationManager.NavigateTo("/RoomList");
+    }
+}
+

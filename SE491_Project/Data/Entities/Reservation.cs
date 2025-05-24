@@ -1,7 +1,11 @@
-﻿namespace SE491_Project.Data.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using SE491_Project.Data.Entities;
+
+namespace SE491_Project.Data.Entities
 {
     public class Reservation
     {
+        [Key]
         public Guid ReservationId { get; set; }
        public int NumberOfGuest { get; set; }
         public Guid RoomId { get; set; }
@@ -19,4 +23,5 @@
         public decimal TotalPrice => (decimal)(NumberOfNights * (Room?.PricePerNight ?? 0));
     }
 }
+
 

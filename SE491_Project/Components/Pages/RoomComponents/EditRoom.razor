@@ -1,36 +1,65 @@
 ﻿@page "/EditRoom"
 @page "/EditRoom/{RoomId:guid}"
 @rendermode InteractiveServer
-@inject RoomDesignServices _RoomDesignServices
 @using SE491_Project.Data.Entities
-<h3>Edit Room</h3>
+@inject NavigationManager _NavigationManager
+@inject IRoomServices _RoomDesignServices
 
-<MudTextField @bind-Value=Room.Number></MudTextField>
-<MudTextField @bind-Value=Room.Type></MudTextField>
-<MudTextField @bind-Value=Room.PricePerNight></MudTextField>
-<MudTextField @bind-Value=Room.Status></MudTextField>
-<MudButton Color="Color.Primary" Variant="Variant.Filled">Save</MudButton>
+<h3>تعديل بيانات الغرفة</h3>
+
+@if (IsLoading)
+{
+    <MudProgressCircular Indeterminate="true" />
+}
+else
+{
+    <EditForm Model="Room" OnValidSubmit="SaveRoom">
+        <MudGrid>
+            <MudItem xs="12" sm="6" md="4">
+                <MudTextField @bind-Value="Room.Number" Label="رقم الغرفة" Required="true" />
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4">
+                <MudTextField @bind-Value="Room.Type" Label="نوع الغرفة" Required="true" />
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4">
+                <MudTextField @bind-Value="Room.PricePerNight" Label="سعر الليلة" Required="true" />
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4">
+                <MudSelect T="RoomStatus" @bind-Value="Room.Status" Label="حالة الغرفة" Required="true">
+                    @foreach (var status in Enum.GetValues<RoomStatus>())
+                    {
+                        <MudSelectItem Value="status">@status</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12">
+                <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit">حفظ التعديلات</MudButton>
+            </MudItem>
+        </MudGrid>
+    </EditForm>
+}
 
 @code {
-	[Parameter] public Guid RoomId { set; get; }
+    [Parameter] public Guid RoomId { get; set; }
+    private Room Room { get; set; } = new Room();
+    private bool IsLoading { get; set; } = true;
 
-	private Room Room { set; get; } = new Room();
+    protected override async Task OnInitializedAsync()
+    {
+        if (RoomId != Guid.Empty)
+        {
+            Room = await _RoomDesignServices.GetRoomById(RoomId);
+        }
+        IsLoading = false;
+    }
 
-	protected override async Task OnInitializedAsync()
-	{
-
-		await Task.Delay(1000);
-		
-		
-
-
-
-	}
-	private async Task save()
-	{
-		await Task.Delay(1000);
-		Console.WriteLine($"Saved Room:{Room.Number}");
-	}
-
-
+    private async Task SaveRoom()
+    {
+        await _RoomDesignServices.UpdateRoomAsync(Room);
+        _NavigationManager.NavigateTo("/RoomList");
+    }
 }
+
+
+
+
